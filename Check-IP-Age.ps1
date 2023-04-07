@@ -30,14 +30,12 @@ foreach ($item in $ipArr){
     $parsedJson = $restResponse | ConvertFrom-Json -AsHashtable
     # $parsed = $parsedJson.data.attributes
 
-    # $restArr = $parsedJson.data.attributes
-
-    $test = $restArr | ConvertFrom-Json -AsHashtable
-
-    # Write-Output $restResponse
-    $restArr += $test 
+    $restArr += $parsedJson.data.attributes
 }
-
 foreach ($item in $restArr){
     Write-Output $item
+
+    # $item
+   # Write-Output $item.first_seen_date
+
 }
