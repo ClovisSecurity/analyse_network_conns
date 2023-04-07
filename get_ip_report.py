@@ -4,9 +4,9 @@ import json
 
 base_url = "https://www.virustotal.com/api/v3/"
 object_name = "ip_addresses/"
-domain_to_analyze = "104.244.42.198"
+ip_to_analyze = "104.244.42.198"
 
-url = f"{base_url}{object_name}{domain_to_analyze}"
+url = f"{base_url}{object_name}{ip_to_analyze}"
 
 headers = {
     "accept": "application/json",
