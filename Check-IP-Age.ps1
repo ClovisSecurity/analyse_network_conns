@@ -8,11 +8,10 @@ $headers = @{
 }
 
 $baseUrl = "https://www.virustotal.com/api/v3/"
+    
 $objectName = "ip_addresses/"
-
-
-$uri = $baseUrl + $objectName + $item + "/historical_whois"
-
+    
+$uri = $baseUrl + $objectName
 
 $ipInfo = Get-NetIPAddress | ConvertTo-Json 
 
@@ -20,14 +19,36 @@ $ipArr = @()
 
 foreach ($item in $ipInfo){
     $converted = ConvertFrom-Json $item
-    $ipArr += $converted.IPv4Address
-}
-restArr = @()
-foreach ($item in $ipArr){
-    # Write-Output $item
+    $convertedStr = $converted.IPv4Address | Out-String
+    $ipArr = $convertedStr -split "`n"
+    # Write-Output $convertedStr
+    # Write-Output $converted.IPv4Address
 
-    $restResponse = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers | ConvertTo-Json
-    $parsedJson = $restResponse | ConvertFrom-Json -AsHashtable
+    # Write-Output $ipArr
+    # Write-Output $ipArr.Length
+}
+$globalIpArr = @()
+
+foreach ($item in $ipArr){
+    if(-not $item.StartsWith("192.168") -and -not $item.StartsWith("172") -and -not $item.StartsWith("127") -and -not $item.StartsWith("10.")){
+        # Write-Output $item
+        # Write-Output $ipArr.Length
+        $globalIpArr += $item
+    }
+}
+
+$restArr = @()
+foreach ($item in $globalIpArr){
+    Write-Output $item
+    # Write-Output $item
+    $newUri = $uri + $item + "/historical_whois"
+    $restResponse = Invoke-RestMethod -Uri $newUri -Method Get -Headers $headers | ConvertTo-Json
+    
+    Write-Output $restResponse
+    Write-Output "/n"
+    Write-Output $newUri
+
+    # $parsedJson = $restResponse | ConvertFrom-Json 
     # $parsed = $parsedJson.data.attributes
 
     $restArr += $parsedJson.data.attributes
