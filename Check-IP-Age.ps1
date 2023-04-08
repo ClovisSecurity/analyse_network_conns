@@ -48,7 +48,7 @@ foreach ($item in $globalIpArr){
     # Write-Output "/n"
     # Write-Output $newUri
 
-    # $parsedJson = $restResponse | ConvertFrom-Json 
+    $parsedJson = $restResponse | ConvertFrom-Json 
     # $parsed = $parsedJson.data.attributes
 
     $restArr += $parsedJson.data.attributes
