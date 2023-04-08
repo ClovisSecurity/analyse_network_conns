@@ -19,7 +19,7 @@ $ipInfo = Get-NetIPAddress | ConvertTo-Json
 $ipArr = @()
 
 foreach ($item in $ipInfo){
-    $converted = ConvertedFrom-Json $item
+    $converted = ConvertFrom-Json $item
     $ipArr += $converted.IPv4Address
 }
 restArr = @()
