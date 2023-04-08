@@ -39,22 +39,31 @@ foreach ($item in $ipArr){
 
 $restArr = @()
 foreach ($item in $globalIpArr){
-    Write-Output $item
     # Write-Output $item
+    Write-Output $item
     $newUri = $uri + $item + "/historical_whois"
     $restResponse = Invoke-RestMethod -Uri $newUri -Method Get -Headers $headers | ConvertTo-Json
     
-    Write-Output $restResponse
-    Write-Output "/n"
-    Write-Output $newUri
+    # Write-Output $restResponse
+    # Write-Output "/n"
+    # Write-Output $newUri
 
     # $parsedJson = $restResponse | ConvertFrom-Json 
     # $parsed = $parsedJson.data.attributes
 
     $restArr += $parsedJson.data.attributes
 }
+$counter = 0 
+
 foreach ($item in $restArr){
-    Write-Output $item
+    Write-Output $globalIpArr[$counter]
+    $firstSeenPrep = $item.Split("=")[1]
+    $firstSeen = $firstSeenPrep.Split(";")[0]
+    # $ $hashMap = ConvertFrom-StringData -StringData $item
+    Write-Output $firstSeen 
+    # Write-Output $hashMap.first_seen_date
+
+    $counter += 1
 
     # $item
    # Write-Output $item.first_seen_date
